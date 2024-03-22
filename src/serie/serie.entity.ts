@@ -1,14 +1,23 @@
-// import { FilmeEntity } from "src/filme/filme.entity";
+import { FILME } from "src/filme/filme.entity";
+import { GENERO } from "src/genero/genero.entity";
+import { Column, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
+import { Entity } from "typeorm/decorator/entity/Entity";
 
-// export class SerieEntity extends FilmeEntity{
-//     nomeSerie: string;
-//     episodio: string;
-//     temporada: string;
-//     constructor(id: string,nome: string,duracao: number,sinopse: string,ano: string,genero: string, nomeSerie: string, episodio: string, temporada:string){        
-//         super(id,nome,duracao,sinopse,ano,genero);
-        
-//         this.nomeSerie = nomeSerie;
-//         this.episodio = episodio;
-//         this.temporada = temporada;
-//     }   
-// }
+@Entity()
+export class SerieEntity{
+    @PrimaryColumn()
+    id: string;
+    
+    @Column({length: 255})
+    nomeSerie: string;
+
+    @Column('int')
+    episodio: number;
+    
+    @Column('int')
+    temporada: number;
+
+    @ManyToOne(() => FILME)
+    @JoinColumn({ name: 'IDFILME', referencedColumnName:'ID'})
+    filme: FILME;
+}

@@ -27,5 +27,5 @@ export class alteraSerieDTO extends alteraFilmeDTO{
         example: '03',
         description: `O número é usado para identificar a ordem das temporadas e para agrupar os mesmos episódios de uma temporada`,
     })
-    temporada: string;
+    temporada: number;
 }
