@@ -9,7 +9,6 @@ import { GENERO } from 'src/genero/genero.entity';
 import { GeneroService } from 'src/genero/genero.service';
 import { ListaFilmesDTO } from './dto/listaFilmes.dto';
 
-
 @Injectable()
 export class FilmeService {
   constructor(
@@ -83,7 +82,6 @@ export class FilmeService {
       },
     });
   }
-
 
   async remover(id: string): Promise<RetornoObjDTO> {
     const filme = await this.localizarID(id);

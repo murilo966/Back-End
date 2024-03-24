@@ -2,8 +2,6 @@ import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common"
 import { alteraFilmeDTO } from "./dto/atualizaFilme.dto";
 import { criaFilmeDTO } from "./dto/insereFilme.dto";
 import { ListaFilmesDTO } from "./dto/listaFilmes.dto";
-import { FILME } from "./filme.entity";
-import {v4  as uuid} from 'uuid'
 import { ApiTags } from "@nestjs/swagger";
 import { FilmeService } from "./filme.service";
 import { RetornoCadastroDTO, RetornoObjDTO } from "src/dto/retorno.dto";

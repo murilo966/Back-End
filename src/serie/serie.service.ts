@@ -4,12 +4,11 @@ import {v4  as uuid} from 'uuid'
 import { RetornoCadastroDTO, RetornoObjDTO } from 'src/dto/retorno.dto';
 import { GENERO } from 'src/genero/genero.entity';
 import { GeneroService } from 'src/genero/genero.service';
-import { SerieEntity } from './serie.entity';
+import { Serie } from './serie.entity';
 import { ListaSeriesDTO } from './dto/listaSerie.dto';
 import { criaSerieDTO } from './dto/insereSerie.dto';
 import { alteraSerieDTO } from './dto/atualizaSerie.dto';
 import { FilmeService } from 'src/filme/filme.service';
-
 
 @Injectable()
 export class SerieService {
@@ -21,20 +20,19 @@ export class SerieService {
     private filmeRepository: Repository<FilmeService>,
     private readonly filmeService: FilmeService,
     @Inject('SERIE_REPOSITORY')
-    private serieRepository: Repository<SerieEntity>,
+    private serieRepository: Repository<Serie>,
   ) {}
 
   async listar(): Promise<ListaSeriesDTO[]> {
     var seriesListadas = await this.serieRepository.find();
     return seriesListadas.map(
       serie => new ListaSeriesDTO(
-        serie.id,
-        serie.nomeSerie,
-        serie.episodio,
-        serie.temporada,
-        serie.filme  
-      ))
-        
+        serie.ID,
+        serie.NOMESERIE,
+        serie.EPSODIO,
+        serie.TEMPORADA,
+        serie.FILME  
+      ))        
   }
 
   async Compartilhar(id: string){
@@ -60,17 +58,17 @@ export class SerieService {
   }
 
   async inserir(dados: criaSerieDTO): Promise<RetornoCadastroDTO>{
-        let serie = new SerieEntity();
+        let serie = new Serie();
         let retornoFilme = await this.filmeService.inserir(dados.dadosFilme);
-        serie.id = uuid();
-        serie.nomeSerie = dados.nomeSerie;
-        serie.filme = await this.filmeService.localizarID(retornoFilme.id)
+        serie.ID = uuid();
+        serie.NOMESERIE = dados.NOMESERIE;
+        serie.FILME = await this.filmeService.localizarID(retornoFilme.id)
 
         
     return this.serieRepository.save(serie)
     .then((result) => {
       return <RetornoCadastroDTO>{
-        id: serie.id,
+        id: serie.ID,
         message: "Serie cadastrada!"
       };
     })
@@ -84,10 +82,10 @@ export class SerieService {
     
   }
 
-  localizarID(id: string): Promise<SerieEntity> {
+  localizarID(ID: string): Promise<Serie> {
     return this.serieRepository.findOne({
       where: {
-        id,
+        ID,
       },
     });
   }
@@ -132,7 +130,7 @@ export class SerieService {
     return this.serieRepository.save(serie)
     .then((result) => {
       return <RetornoCadastroDTO>{
-        id: serie.id,
+        id: serie.ID,
         message: "Serie alterada!"
       };
     })

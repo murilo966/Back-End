@@ -1,23 +1,22 @@
 import { FILME } from "src/filme/filme.entity";
-import { GENERO } from "src/genero/genero.entity";
 import { Column, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
 import { Entity } from "typeorm/decorator/entity/Entity";
 
 @Entity()
-export class SerieEntity{
+export class Serie{
     @PrimaryColumn()
-    id: string;
+    ID: string;
     
     @Column({length: 255})
-    nomeSerie: string;
+    NOMESERIE: string;
 
     @Column('int')
-    episodio: number;
-    
+    TEMPORADA: number;
+
     @Column('int')
-    temporada: number;
+    EPSODIO: number;
 
     @ManyToOne(() => FILME)
     @JoinColumn({ name: 'IDFILME', referencedColumnName:'ID'})
-    filme: FILME;
+    FILME: FILME;
 }

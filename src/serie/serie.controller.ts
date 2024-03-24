@@ -1,12 +1,10 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { RetornoCadastroDTO } from "src/dto/retorno.dto";
-import {v4  as uuid} from 'uuid'
 import { alteraSerieDTO } from "./dto/atualizaSerie.dto";
 import { criaSerieDTO } from "./dto/insereSerie.dto";
 import { ListaSeriesDTO } from "./dto/listaSerie.dto";
 import { SerieService } from "./serie.service";
-import { SerieEntity } from "./serie.entity";
 
 @ApiTags('serie')
 @Controller('/series')
@@ -20,11 +18,11 @@ export class SerieController{
         const seriesListados = await this.clsSeriesArmazenados.listar();
         const listaRetorno = seriesListados.map(
             serie => new ListaSeriesDTO(
-                serie.id,
-                serie.nomeSerie,
-                serie.episodio,
-                serie.temporada,
-                serie.filme
+                serie.ID,
+                serie.NOMESERIE,
+                serie.EPSODIO,
+                serie.TEMPORADA,
+                serie.FILME
             )
         );
         

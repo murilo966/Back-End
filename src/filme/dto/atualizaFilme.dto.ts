@@ -1,8 +1,6 @@
 import { ApiPropertyOptional } from "@nestjs/swagger";
 import { IsEmail, IsInt, IsNotEmpty, IsOptional, IsString, MinLength } from "class-validator";
 
-
-
 export class alteraFilmeDTO{
     @IsString()
     @IsOptional()

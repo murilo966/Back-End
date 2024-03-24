@@ -1,7 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail, IsInt, IsNotEmpty, IsString } from "class-validator";
-
-
+import { IsInt, IsNotEmpty, IsString } from "class-validator";
 
 export class criaFilmeDTO{
     @IsString()
