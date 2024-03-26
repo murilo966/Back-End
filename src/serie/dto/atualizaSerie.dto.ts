@@ -1,5 +1,5 @@
 import { ApiPropertyOptional } from "@nestjs/swagger";
-import { IsOptional, IsString } from "class-validator";
+import { IsNumber, IsOptional, IsString } from "class-validator";
 import { alteraFilmeDTO } from "src/filme/dto/atualizaFilme.dto";
 
 export class alteraSerieDTO extends alteraFilmeDTO{    
@@ -11,15 +11,15 @@ export class alteraSerieDTO extends alteraFilmeDTO{
     })
     NOMESERIE: string;
 
-    @IsString()
+    @IsNumber()
     @IsOptional()
     @ApiPropertyOptional({
         example: '01',
         description: `O número é usado para identificar a ordem dos episódios`,
     })
-    EPSODIO: string;
+    EPSODIO: number;
 
-    @IsString()
+    @IsNumber()
     @IsOptional()
     @ApiPropertyOptional({
         example: '03',

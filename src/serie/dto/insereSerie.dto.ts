@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmptyObject, IsString } from "class-validator";
+import { IsNotEmptyObject, IsNumber, IsString } from "class-validator";
 import { criaFilmeDTO } from "src/filme/dto/insereFilme.dto";
 
 export class criaSerieDTO{   
@@ -14,19 +14,19 @@ export class criaSerieDTO{
     })
     NOMESERIE: string;
 
-    @IsString()
+    @IsNumber()
     @ApiProperty({
         example: '01',
         description: `O número é usado para identificar a ordem dos episódios`,
     })
-    EPSODIO: string;
+    EPSODIO: number;
 
-    @IsString()
+    @IsNumber()
     @ApiProperty({
         example: '03',
         description: `O número é usado para identificar a ordem das temporadas e para agrupar os mesmos episódios de uma temporada`,
     })
-    TEMPORADA: string;
+    TEMPORADA: number;
     
     @IsString()
     @ApiProperty({
