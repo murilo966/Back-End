@@ -12,7 +12,7 @@ export class criaSerieDTO{
         example: 'Breaking Bad',
         description: `O nome será utilizado para identificar a série.`,
     })
-    NOME_SERIE: string;
+    NOMESERIE: string;
 
     @IsNumber()
     @ApiProperty({
@@ -20,7 +20,7 @@ export class criaSerieDTO{
         description: `O número é usado para identificar a ordem dos episódios`,
     })
 
-    EPISODIO: number;
+    EPSODIO: number;
 
     @IsNumber()
     @ApiProperty({
