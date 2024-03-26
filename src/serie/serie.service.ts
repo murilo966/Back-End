@@ -43,7 +43,7 @@ export class SerieService {
       .addSelect('serie.EPSODIO','EPSODIO')
       .addSelect('serie.TEMPORADA','TEMPORADA')
       .addSelect('serie.FILME','FILME')  
-      .andWhere('serie.ID = :ID',{ ID: `${id}` })         
+      .andWhere('serie.ID = :ID',{ ID: `${id}` })
       .getRawOne());
 
     return{            
