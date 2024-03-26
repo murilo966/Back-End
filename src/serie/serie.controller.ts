@@ -34,8 +34,7 @@ export class SerieController{
         const retorno = await this.clsSeriesArmazenados.Compartilhar(id);
         return{            
             message: retorno
-        }
-                
+        }                
     }
 
     @Delete('/:id')

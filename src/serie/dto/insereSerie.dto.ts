@@ -19,6 +19,7 @@ export class criaSerieDTO{
         example: '01',
         description: `O número é usado para identificar a ordem dos episódios`,
     })
+
     EPISODIO: number;
 
     @IsNumber()

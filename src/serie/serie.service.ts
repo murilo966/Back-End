@@ -38,22 +38,16 @@ export class SerieService {
   async Compartilhar(id: string){
     var serie = await (this.serieRepository // select marca.id as ID, marca.nome AS NOME_, pes_f.nome from marca ......
       .createQueryBuilder('serie')
-      .select('serie.is', 'ID')
+      .select('serie.ID', 'ID')
       .addSelect('serie.NOMESERIE','NOMESERIE')
-      .addSelect('serie.SINOPSE','SINOPSE')
-      .addSelect('serie.ANO','ANO')
-      .addSelect('serie.DURACAO','DURACAO')
       .addSelect('serie.EPSODIO','EPSODIO')
       .addSelect('serie.TEMPORADA','TEMPORADA')
-      .addSelect('gen.NOME','GENERO')
-      .leftJoin('genero', 'gen','filme.idgenero = gen.id')      
-      .andWhere('serie.id = :id',{ ID: `${id}` })         
+      .addSelect('serie.FILME','FILME')  
+      .andWhere('serie.ID = :ID',{ ID: `${id}` })
       .getRawOne());
 
     return{            
-      message: "Estou assistindo o episódio " + serie.episodio + " da temporada "+serie.temporada+" da serie "+serie.nomeSerie+
-              " que conta a seguinte história: "+serie.sinopse+ ", foi lançado em "+serie.ano+" e tem duração de "
-              +serie.duracao+" minutos. Assista também!!" 
+      message: `Estou assistindo o episódio ${serie.EPSODIO} da temporada ${serie.TEMPORADA} da serie ${serie.NOMESERIE} `
     }
   }
 
@@ -61,11 +55,10 @@ export class SerieService {
         let serie = new Serie();
         let retornoFilme = await this.filmeService.inserir(dados.dadosFilme);
         serie.ID = uuid();
-        serie.NOMESERIE = dados.NOME_SERIE;
-        serie.EPSODIO = dados.EPISODIO;
-        serie.TEMPORADA = dados.TEMPORADA;
+        serie.NOMESERIE = dados.NOMESERIE;
+        serie.EPSODIO = dados.EPSODIO;
+        serie.TEMPORADA = dados.TEMPORADA
         serie.FILME = await this.filmeService.localizarID(retornoFilme.id)
-
         
     return this.serieRepository.save(serie)
     .then((result) => {
@@ -80,7 +73,6 @@ export class SerieService {
         message: "Houve um erro ao cadastrar." + error.message
       };
     })
-
     
   }
 
@@ -91,7 +83,6 @@ export class SerieService {
       },
     });
   }
-
 
   async remove(id: string): Promise<RetornoObjDTO> {
     const serie = await this.localizarID(id);
