@@ -38,13 +38,13 @@ export class SerieService {
   async Compartilhar(id: string){
     var serie = await (this.serieRepository // select marca.id as ID, marca.nome AS NOME_, pes_f.nome from marca ......
       .createQueryBuilder('serie')
-      .select('serie.is', 'id')
-      .addSelect('serie.nomeSerie','nome_serie')
-      .addSelect('serie.sinopse','sinopse')
-      .addSelect('serie.ano','ano')
-      .addSelect('serie.duracao','duracao')
-      .addSelect('serie.episodio','episodio')
-      .addSelect('serie.temporada','temporada')
+      .select('serie.is', 'ID')
+      .addSelect('serie.NOMESERIE','NOMESERIE')
+      .addSelect('serie.SINOPSE','SINOPSE')
+      .addSelect('serie.ANO','ANO')
+      .addSelect('serie.DURACAO','DURACAO')
+      .addSelect('serie.EPSODIO','EPSODIO')
+      .addSelect('serie.TEMPORADA','TEMPORADA')
       .addSelect('gen.NOME','GENERO')
       .leftJoin('genero', 'gen','filme.idgenero = gen.id')      
       .andWhere('serie.id = :id',{ ID: `${id}` })         
@@ -61,7 +61,9 @@ export class SerieService {
         let serie = new Serie();
         let retornoFilme = await this.filmeService.inserir(dados.dadosFilme);
         serie.ID = uuid();
-        serie.NOMESERIE = dados.NOMESERIE;
+        serie.NOMESERIE = dados.NOME_SERIE;
+        serie.EPSODIO = dados.EPISODIO;
+        serie.TEMPORADA = dados.TEMPORADA;
         serie.FILME = await this.filmeService.localizarID(retornoFilme.id)
 
         
