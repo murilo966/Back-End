@@ -33,6 +33,7 @@ async function bootstrap() {
     .addTag('usuario')
     .addTag('filme')
     .addTag('serie')
+    .addTag('pessoa')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
