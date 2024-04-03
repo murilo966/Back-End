@@ -1,60 +1,49 @@
 import Datas from "../utils/datas";
 import * as bcrypt from 'bcrypt';
+import { Column, Entity, JoinColumn, JoinTable, OneToOne, PrimaryColumn } from "typeorm";
+import { PESSOA } from "src/pessoa/pessoa.entity";
 
-export class UsuarioEntity{
-    id: string;
-    nome: string;
-    idade: number;
-    cidade: string;
-    email: string;
-    telefone: string;
-    senha: string; 
-    assinatura: Date;
-    cep: string;
-    logradouro: string;
-    complemento: string;
-    foto: string;
-    #datas: Datas;
+@Entity()
+export class Usuario{
     
-    constructor(id: string,nome: string,idade: number,cidade: string,email: string,telefone: string,senha: string,foto: string,cep: string, logradouro: string, complemento:string){
-        const saltOrRounds = 10;
+    @PrimaryColumn()
+    ID:string;
 
-        this.#datas = new Datas();
-        this.id = id;
-        this.nome = nome;
-        this.idade = idade;
-        this.cidade = cidade;
-        this.cep = cep;
-        this.logradouro = logradouro;
-        this.complemento = complemento;
-        this.email = email;
-        this.telefone = telefone;
-        this.senha = bcrypt.hashSync(senha, saltOrRounds);
-        this.assinatura = this.#datas.dataAtual();
-        this.foto = foto;
+    @Column({length: 255})
+    EMAIL: string;
+
+    @Column({length: 255})
+    SENHA: string;
+
+    @Column({length: 255})
+    NOME: string;
+
+    @Column({length: 255})
+    TELEFONE: string;
+
+    @Column({length: 255})
+    CIADADE: string;
+
+    @Column({length: 255})
+    ENDERECO: string;
+
+    @Column({length: 255})
+    CEP: string;
+
+    @Column()
+    IDADE: number;
+
+    @Column({length: 255})
+    ASSINATURA: string;
+
+    @Column({length: 255})
+    FOTO: string;
+
+    @OneToOne(() => Usuario)
+    @JoinColumn({ name: 'IDPESSOA', referencedColumnName:'ID'})
+    PESSOA: PESSOA
+
+    login(SENHA){
+        return bcrypt.compareSync(SENHA,this.SENHA)
     }
-
-
-    login(senha){
-        return bcrypt.compareSync(senha,this.senha);
-    }
-
-    trocaSenha(senha){
-        const saltOrRounds = 10;
-        this.senha = bcrypt.hashSync(senha, saltOrRounds);
-    }
-
-    retornaAssinatura(){
-        return this.#datas.formatar(this.assinatura);
-    }
-
-    validarAssinatura(){
-        var dias = this.#datas.diferencaDias(this.assinatura)
-        return (dias >= 1)
-    }
-
-    adicionarAssinatura(dias){
-        this.assinatura = this.#datas.adicionarDias(this.assinatura,dias)
-    }
-
 }

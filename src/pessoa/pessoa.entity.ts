@@ -1,5 +1,6 @@
 import { FILME } from "src/filme/filme.entity";
-import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryColumn } from "typeorm";
+import { Usuario } from "src/usuario/usuario.entity";
+import { Column, Entity, JoinTable, ManyToMany, OneToMany, OneToOne, PrimaryColumn } from "typeorm";
 
 @Entity()
 export class PESSOA {
@@ -14,6 +15,19 @@ export class PESSOA {
 
     @Column({length: 255})
     PAIS: string;
+
+    @OneToOne(() => Usuario)
+    @JoinTable({
+      name:'pessoa',
+      joinColumn: {
+        name: 'ID',
+        referencedColumnName: 'ID',
+      },
+      inverseJoinColumn: {
+        name: 'IDPESSOA',
+        referencedColumnName: 'ID'
+      }
+    })
 
     @ManyToMany(
         () => FILME, 

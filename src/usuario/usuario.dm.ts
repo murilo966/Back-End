@@ -1,16 +1,16 @@
 import { Injectable } from "@nestjs/common";
-import { UsuarioEntity } from "./usuario.entity";
+import { Usuario } from "./usuario.entity";
 
 
 @Injectable()
 export class UsuariosArmazenados{
     #usuarios = [];    
 
-    AdicionarUsuario(usuario: UsuarioEntity){
+    AdicionarUsuario(usuario: Usuario){
         this.#usuarios.push(usuario);
     }
 
-    atualizaUSuario(id: string, dadosAtualizacao: Partial<UsuarioEntity>){
+    atualizaUSuario(id: string, dadosAtualizacao: Partial<Usuario>){
         const usuario = this.buscaPorID(id);
 
         Object.entries(dadosAtualizacao).forEach(
@@ -64,34 +64,6 @@ export class UsuariosArmazenados{
         );
         return (possivelUsuario !== undefined);
     }
-
-    validaAssinatura(id: string){
-        const usuario = this.buscaPorID(id);
-
-        return {
-            valida: usuario.validarAssinatura(),
-            vencimento: usuario.retornaAssinatura()
-        };
-    }
-
-    adicionarAssinatura(id: string,dias: BigInteger){
-        const usuario = this.buscaPorID(id);
-
-        usuario.adicionarAssinatura(dias);
-
-        return usuario.retornaAssinatura();
-    }
-
-    validarLogin(email:string,senha:string){
-        const usuario = this.buscaPorEmail(email);
-        if (usuario)
-            return [usuario,usuario.login(senha)];
-        else
-            return [null,false];  
-    }
-
-
-
     get Usuarios(){        
         return this.#usuarios;
     }

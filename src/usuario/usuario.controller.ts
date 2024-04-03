@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { criaUsuarioDTO } from "./dto/usuario.dto";
-import { UsuarioEntity } from "./usuario.entity";
+import { Usuario } from "./usuario.entity";
 import { UsuariosArmazenados } from "./usuario.dm";
 import {v4  as uuid} from 'uuid'
 import { ListaUsuarioDTO } from "./dto/listaUsuario.dto";
@@ -11,27 +11,30 @@ import { ApiCreatedResponse, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { AlteraFotoUsuarioDTO } from "./dto/alteraFotoUsuario.dto";
 import { HttpService } from "@nestjs/axios";
 import { lastValueFrom, map, throwError } from "rxjs";
+import { RetornoCadastroDTO } from "src/dto/retorno.dto";
+import { UsuarioService } from "./usuario.service";
 
 @ApiTags('usuario')
 @Controller('/usuarios')
 export class UsuarioController{    
-    constructor(private clsUsuariosArmazenados: UsuariosArmazenados, private httpService: HttpService){
+    constructor(private clsUsuariosArmazenados: UsuarioService){
         
     }   
 
     @ApiResponse({ status: 200, description: 'Retorna os usuários cadastrados.'})
     @Get()
     async RetornoUsuarios(){
-        const usuariosListados = await this.clsUsuariosArmazenados.Usuarios;
+        const usuariosListados = await this.clsUsuariosArmazenados.listar();
         const listaRetorno = usuariosListados.map(
             usuario => new ListaUsuarioDTO(
-                usuario.id,
-                usuario.nome,
-                usuario.cidade,
-                usuario.email,
-                usuario.retornaAssinatura(),
-                usuario.senha,
-                usuario.foto
+                // usuario.ID,
+                // usuario.NOME,
+                usuario.CIADADE,
+                usuario.EMAIL,
+                usuario.PESSOA,  //id,nome,nascimento,pais
+                usuario.ASSINATURA,
+                usuario.SENHA,
+                usuario.FOTO
             )
         );
         
@@ -65,37 +68,13 @@ export class UsuarioController{
     @ApiResponse({ status: 500, description: 'Retorna que o usuário não foi encontrado.'})
     @Put('/:id')
     async atualizaUsuario(@Param('id') id: string, @Body() novosDados: AlteraUsuarioDTO){
-        var messageError = '';
-        if (novosDados.cep){
-            try{
-                var retornoCep = await lastValueFrom(this.httpService
-                                                    .get(`https://viacep.com.br/ws/${novosDados.cep}/json/`)
-                                                    .pipe(
-                                                        map((response) => response.data)
-                                                    ))
-                if (retornoCep.erro){
-                    retornoCep = null
-                    throw new Error('CEP Não encontrado')                
-                }
-            }catch(error){
-                messageError = ' | Erro ao buscar CEP - '+ error.message;
-            }
-
-            var dadosEndereco = {
-                logradouro : retornoCep?retornoCep.logradouro:'',
-                complemento:  retornoCep?retornoCep.complemento:''
-            }
-
-            await this.clsUsuariosArmazenados.atualizaUSuario(id, dadosEndereco)
-            
-        }   
-
         const usuarioAtualizado = await this.clsUsuariosArmazenados.atualizaUSuario(id, novosDados)
 
         return{
             usuario: usuarioAtualizado,
-            message: 'Usuário atualizado' + messageError
+            message: 'Usuário atualizado'
         }
+        
     }
 
     @ApiResponse({ status: 200, description: 'Retorna que houve sucesso ao modificar a assinatura.'})
@@ -135,35 +114,7 @@ export class UsuarioController{
 
     @ApiCreatedResponse({ description: 'Retorna que houve sucesso ao cadastrar o usuário e retorna o ID criado.'})
     @Post()
-    async criaUsuario(@Body() dadosUsuario: criaUsuarioDTO){
-        var messageError = '';
-        try{
-            var retornoCep = await lastValueFrom(this.httpService
-                                                .get(`https://viacep.com.br/ws/${dadosUsuario.cep}/json/`)
-                                                .pipe(
-                                                    map((response) => response.data)
-                                                ))
-            if (retornoCep.erro){
-                retornoCep = null
-                throw new Error('CEP Não encontrado')                
-            }
-        }catch(error){
-            messageError = ' | Erro ao buscar CEP - '+ error.message;
-        }
-
-
-
-        var usuario = new UsuarioEntity(uuid(),dadosUsuario.nome,dadosUsuario.idade,dadosUsuario.cidade,
-                                    dadosUsuario.email, dadosUsuario.telefone, dadosUsuario.senha,dadosUsuario.foto,
-                                    dadosUsuario.cep,retornoCep?retornoCep.logradouro:'',retornoCep?retornoCep.complemento:'')
-        
-            
-        this.clsUsuariosArmazenados.AdicionarUsuario(usuario);        
-        var retorno={
-            id: usuario.id,
-            message:'Usuário Criado' + messageError
-        }
-        
-        return retorno
+    async criaUsuario(@Body() dadosUsuario: criaUsuarioDTO):Promise<RetornoCadastroDTO>{
+        return this.clsUsuariosArmazenados.inserir(dadosUsuario);  
     }
 }
