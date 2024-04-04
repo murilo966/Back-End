@@ -47,6 +47,13 @@ export class UsuarioService {
     let retornoPessoa = await this.pessoaService.inserir(dados.dadosPessoa);
         pessoa.ID = uuid();
         pessoa.PESSOA = await this.pessoaService.localizarID(retornoPessoa.id)
+        pessoa.EMAIL = dados.EMAIL;
+        pessoa.SENHA = dados.SENHA;
+        pessoa.TELEFONE = dados.TELEFONE;
+        pessoa.CIDADE = dados.CIDADE;
+        pessoa.ENDERECO = dados.ENDERECO;
+        pessoa.CEP = dados.CEP;
+        pessoa.ASSINATURA = dados.ASSINATURA;
         // pessoa.NOME = dados.NOME;
         // pessoa.NASCIMENTO = dados.NASCIMENTO;
         // pessoa.PAIS = dados.PAIS;
@@ -77,8 +84,8 @@ export class UsuarioService {
     });
   }
 
-  localizarNome(NOME: string): Promise<Usuario> {
-    return this.usuarioRepository.findOne({
+  localizarNome(NOME: string): Promise<PESSOA> {
+    return this.pessoaRepository.findOne({
       where: {
         NOME,
       },

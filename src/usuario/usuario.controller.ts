@@ -27,14 +27,14 @@ export class UsuarioController{
         const usuariosListados = await this.clsUsuariosArmazenados.listar();
         const listaRetorno = usuariosListados.map(
             usuario => new ListaUsuarioDTO(
-                // usuario.ID,
+                usuario.ID,
                 // usuario.NOME,
-                usuario.CIADADE,
+                usuario.CIDADE,
                 usuario.EMAIL,
                 usuario.PESSOA,  //id,nome,nascimento,pais
                 usuario.ASSINATURA,
                 usuario.SENHA,
-                usuario.FOTO
+                // usuario.FOTO
             )
         );
         

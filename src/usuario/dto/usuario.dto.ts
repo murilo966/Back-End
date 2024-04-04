@@ -7,16 +7,13 @@ import { SenhaForte } from "../validacao/strongpass.validator";
 
 
 export class criaUsuarioDTO{
-
-    @IsNotEmptyObject()
-    dadosPessoa: CriaPessoaDTO;
     
-    @IsInt()
-    @ApiProperty({
-        example: '18',
-        description: `A idade é utilizada para identificar a idade do usuário, deve ser numérico.`,
-    })
-    IDADE: number;
+    // @IsInt()
+    // @ApiProperty({
+    //     example: '18',
+    //     description: `A idade é utilizada para identificar a idade do usuário, deve ser numérico.`,
+    // })
+    // IDADE: number;
 
     @IsString()
     @ApiProperty({
@@ -25,7 +22,21 @@ export class criaUsuarioDTO{
     })
     CIDADE: string;
 
-    @IsNumberString()
+    @IsString()
+    @ApiProperty({
+        example: 'R. Antônio Garcia, 39 - Quadra 6 - Vila Santa Teresinha',
+        description: `ENDEREÇO.`,
+    })
+    ENDERECO: string;
+
+    @IsString()
+    @ApiProperty({
+        example: '',
+        description: `ASSINATURA.`,
+    })
+    ASSINATURA: string;
+
+    @IsString()
     @MinLength(8,{message:'CEP precisa ter 8 numeros'})
     @MaxLength(8,{message:'CEP precisa ter 8 numeros'})
     @ApiProperty( {
@@ -59,11 +70,14 @@ export class criaUsuarioDTO{
     SENHA: string; 
 
     
-    @IsOptional()
-    @ArquivoValido({message:'Arquivo não encontrado ou inválido'})
-    @ApiProperty({
-        example: 'nomearquivo-idarquivo.png',
-        description: `Esse campo é responsável pela foto do usuário, para ser enviado o dado correto é necessário que seja feito o upload pelo modulo FILES.`,
-    })
-    FOTO: string; 
+    // @IsOptional()
+    // @ArquivoValido({message:'Arquivo não encontrado ou inválido'})
+    // @ApiProperty({
+    //     example: 'nomearquivo-idarquivo.png',
+    //     description: `Esse campo é responsável pela foto do usuário, para ser enviado o dado correto é necessário que seja feito o upload pelo modulo FILES.`,
+    // })
+    // FOTO: string; 
+
+    @IsNotEmptyObject()
+    dadosPessoa: CriaPessoaDTO;
 }

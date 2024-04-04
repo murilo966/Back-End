@@ -15,14 +15,14 @@ export class Usuario{
     @Column({length: 255})
     SENHA: string;
 
-    @Column({length: 255})
-    NOME: string;
+    // @Column({length: 255})
+    // NOME: string;
 
     @Column({length: 255})
     TELEFONE: string;
 
     @Column({length: 255})
-    CIADADE: string;
+    CIDADE: string;
 
     @Column({length: 255})
     ENDERECO: string;
@@ -30,14 +30,14 @@ export class Usuario{
     @Column({length: 255})
     CEP: string;
 
-    @Column()
-    IDADE: number;
+    // @Column()
+    // IDADE: number;
 
     @Column({length: 255})
     ASSINATURA: string;
 
-    @Column({length: 255})
-    FOTO: string;
+    // @Column({length: 255})
+    // FOTO: string;
 
     @OneToOne(() => Usuario)
     @JoinColumn({ name: 'IDPESSOA', referencedColumnName:'ID'})

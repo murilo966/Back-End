@@ -4,6 +4,7 @@ import { EmailUnico } from "../validacao/email-unico.validator";
 import { SenhaForte } from "../validacao/strongpass.validator";
 
 export class AlteraUsuarioDTO{
+
     @IsString()
     @IsNotEmpty({message: "nome Não pode ser vazio"})
     @IsOptional()
@@ -13,13 +14,13 @@ export class AlteraUsuarioDTO{
     })
     NOME:string;
     
-    @IsInt()
-    @IsOptional()
-    @ApiPropertyOptional({
-        example: '18',
-        description: `A idade é utilizada para identificar a idade do usuário, deve ser numérico.`,
-    })
-    IDADE: number;
+    // @IsInt()
+    // @IsOptional()
+    // @ApiPropertyOptional({
+    //     example: '18',
+    //     description: `A idade é utilizada para identificar a idade do usuário, deve ser numérico.`,
+    // })
+    // IDADE: number;
 
     @IsString()
     @IsOptional()
