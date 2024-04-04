@@ -46,4 +46,9 @@ export class Usuario{
     login(SENHA){
         return bcrypt.compareSync(SENHA,this.SENHA)
     }
+
+    trocaSenha(SENHA){
+        const salt0rRounds=10
+        this.SENHA = bcrypt.hashSync(SENHA, salt0rRounds)
+    }
 }

@@ -28,7 +28,7 @@ export class AlteraUsuarioDTO{
         example: 'São Paulo',
         description: `A cidade é utilizada para identificar a localização do usuário.`,
     })
-    CIADADE: string;
+    CIDADE: string;
 
     @IsEmail(undefined,{message:"email é inválido"})
     @EmailUnico({message:"O email informado já existe"})
@@ -59,6 +59,7 @@ export class AlteraUsuarioDTO{
     @IsNumberString()
     @MinLength(8,{message:'CEP precisa ter 8 numeros'})
     @MaxLength(8,{message:'CEP precisa ter 8 numeros'})
+    @IsOptional()
     @ApiPropertyOptional( {
         example: '17010150',
         description: `O CEP é utilizado para preencher o endereço.`,

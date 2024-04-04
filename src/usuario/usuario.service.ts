@@ -54,9 +54,7 @@ export class UsuarioService {
         pessoa.ENDERECO = dados.ENDERECO;
         pessoa.CEP = dados.CEP;
         pessoa.ASSINATURA = dados.ASSINATURA;
-        // pessoa.NOME = dados.NOME;
-        // pessoa.NASCIMENTO = dados.NASCIMENTO;
-        // pessoa.PAIS = dados.PAIS;
+        pessoa.trocaSenha(dados.SENHA)
         
 
     return this.usuarioRepository.save(pessoa)
@@ -166,11 +164,11 @@ async removeUsuario(id: string){
   return usuario;
 }
 
-  async validarLogin(email:string,senha:string){
-    const usuario = this.localizarEmail(email);
+  async validarLogin(EMAIL:string,SENHA:string){
+    const usuario = await this.localizarEmail(EMAIL);
     var objRetorno;
     if (usuario){
-      return [usuario,(await usuario).login(senha)];
+      objRetorno = [usuario,await usuario.login(SENHA)];
     }
 
     return <RetornoObjDTO>{
