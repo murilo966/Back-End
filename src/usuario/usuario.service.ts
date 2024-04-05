@@ -189,8 +189,8 @@ async removeUsuario(id: string): Promise<RetornoObjDTO>{
         
 }
 
-async adicionarAssinatura(id: string,dias: BigInteger): Promise<RetornoObjDTO>{
-  const usuario = await this.localizarID(id);
+adicionarAssinatura(id: string,dias: BigInteger){
+  const usuario = this.buscaPorID(id);
 
   usuario.adicionarAssinatura(dias);
 
