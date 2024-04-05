@@ -13,14 +13,6 @@ export class AlteraUsuarioDTO{
         description: `O nome é usado para identificar o usuário, em telas, cadastros e outros.`,
     })
     NOME:string;
-    
-    // @IsInt()
-    // @IsOptional()
-    // @ApiPropertyOptional({
-    //     example: '18',
-    //     description: `A idade é utilizada para identificar a idade do usuário, deve ser numérico.`,
-    // })
-    // IDADE: number;
 
     @IsString()
     @IsOptional()
@@ -66,5 +58,12 @@ export class AlteraUsuarioDTO{
     })
     CEP:string;
 
+    // @IsInt()
+    // @IsOptional()
+    // @ApiPropertyOptional({
+    //     example: '18',
+    //     description: `A idade é utilizada para identificar a idade do usuário, deve ser numérico.`,
+    // })
+    // IDADE: number;
     
 }

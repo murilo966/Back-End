@@ -47,12 +47,12 @@ export class UsuarioController{
 
     @ApiResponse({ status: 200, description: 'Retorna que houve sucesso ao excluir o usuário.'})
     @ApiResponse({ status: 500, description: 'Retorna que o usuário não foi encontrado.'})
-    @Delete('/:id')
-    async removeUsuario(@Param('id') id: string){
+    @Delete('remove-:id')
+    async removeUsuario(@Param('id') id: string): Promise<RetornoObjDTO>{
         const usuarioRemovido = await this.usuarioService.removeUsuario(id)
 
         return{
-            usuario: usuarioRemovido,
+            return: usuarioRemovido,
             message: 'Usuário removido'
         }
     }
@@ -93,16 +93,16 @@ export class UsuarioController{
         }
     }
 
-    @ApiResponse({ status: 200, description: 'Retorna que houve sucesso ao trocar a foto.'})
-    @ApiResponse({ status: 500, description: 'Retorna que o usuário não foi encontrado.'})
-    @Post('/foto/:id')
-    async atualizaFoto(@Param('id') id: string,@Body() AlteraFotoUsuarioDTO){
-        const usuario = await this.usuarioService.atualizaUSuario(id,AlteraFotoUsuarioDTO)
+    // @ApiResponse({ status: 200, description: 'Retorna que houve sucesso ao trocar a foto.'})
+    // @ApiResponse({ status: 500, description: 'Retorna que o usuário não foi encontrado.'})
+    // @Post('/foto/:id')
+    // async atualizaFoto(@Param('id') id: string,@Body() AlteraFotoUsuarioDTO){
+    //     const usuario = await this.usuarioService.atualizaUSuario(id,AlteraFotoUsuarioDTO)
 
-        return{
-            usuario: usuario            
-        }
-    }
+    //     return{
+    //         usuario: usuario            
+    //     }
+    // }
 
 
     @ApiCreatedResponse({ description: 'Retorna que houve sucesso ao cadastrar o usuário e retorna o ID criado.'})

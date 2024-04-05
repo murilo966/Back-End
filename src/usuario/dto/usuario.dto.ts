@@ -8,13 +8,6 @@ import { SenhaForte } from "../validacao/strongpass.validator";
 
 export class criaUsuarioDTO{
     
-    // @IsInt()
-    // @ApiProperty({
-    //     example: '18',
-    //     description: `A idade é utilizada para identificar a idade do usuário, deve ser numérico.`,
-    // })
-    // IDADE: number;
-
     @IsString()
     @ApiProperty({
         example: 'São Paulo',
@@ -69,6 +62,8 @@ export class criaUsuarioDTO{
     })
     SENHA: string; 
 
+    @IsNotEmptyObject()
+    dadosPessoa: CriaPessoaDTO;
     
     // @IsOptional()
     // @ArquivoValido({message:'Arquivo não encontrado ou inválido'})
@@ -77,7 +72,4 @@ export class criaUsuarioDTO{
     //     description: `Esse campo é responsável pela foto do usuário, para ser enviado o dado correto é necessário que seja feito o upload pelo modulo FILES.`,
     // })
     // FOTO: string; 
-
-    @IsNotEmptyObject()
-    dadosPessoa: CriaPessoaDTO;
 }

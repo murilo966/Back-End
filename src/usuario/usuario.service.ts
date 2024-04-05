@@ -30,18 +30,6 @@ export class UsuarioService {
     return this.usuarioRepository.find();
   }
 
-  private buscaPorID(id: string){
-    const possivelUsuario = this.#usuarios.find(
-        usuarioSalvo => usuarioSalvo.id === id
-    )
-
-    if (!possivelUsuario){
-        throw new Error('Usuario nao encontrado')
-    }
-    
-    return possivelUsuario;
-}
-
   async inserir(dados: criaUsuarioDTO): Promise<RetornoCadastroDTO>{
     let pessoa = new Usuario();
     let retornoPessoa = await this.pessoaService.inserir(dados.dadosPessoa);
@@ -82,6 +70,18 @@ export class UsuarioService {
     });
   }
 
+  private buscaPorID(id: string){
+    const possivelUsuario = this.#usuarios.find(
+      usuarioSalvo => usuarioSalvo.id === id
+    )
+
+    if (!possivelUsuario){
+      throw new Error('Usuario nao encontrado')
+    }
+    
+    return possivelUsuario;
+}
+
   localizarNome(NOME: string): Promise<PESSOA> {
     return this.pessoaRepository.findOne({
       where: {
@@ -100,18 +100,18 @@ export class UsuarioService {
 
 
   async remover(id: string): Promise<RetornoObjDTO> {
-    const pessoa = await this.localizarID(id);
+    const usuario = await this.localizarID(id);
     
-    return this.usuarioRepository.remove(pessoa)
+    return this.usuarioRepository.remove(usuario)
     .then((result) => {
       return <RetornoObjDTO>{
-        return: pessoa,
+        return: usuario,
         message: "Pessoa excluido!"
       };
     })
     .catch((error) => {
       return <RetornoObjDTO>{
-        return: pessoa,
+        return: usuario,
         message: "Houve um erro ao excluir." + error.message
       };
     });  
@@ -154,14 +154,25 @@ export class UsuarioService {
     return (possivelUsuario !== null);
 }
 
-async removeUsuario(id: string){
-  const usuario = this.buscaPorID(id);
+async removeUsuario(id: string): Promise<RetornoObjDTO>{
+  const usuario = await this.localizarID(id);
 
-  this.#usuarios = this.#usuarios.filter(
-      usuarioSalvo => usuarioSalvo.id !== id
-  )
-
-  return usuario;
+  return this.usuarioRepository.remove(usuario)
+  .then((result) => {
+    return <RetornoObjDTO>{
+      return: usuario,
+      message: "Pessoa excluido!"
+    };
+  })
+  .catch((error) => {
+    return <RetornoObjDTO>{
+      return: usuario,
+      message: "Houve um erro ao excluir." + error.message
+    };
+  }); 
+  // this.#usuarios = this.#usuarios.filter(
+  //     usuarioSalvo => usuarioSalvo.id !== id
+  // )
 }
 
   async validarLogin(EMAIL:string,SENHA:string){
@@ -178,8 +189,8 @@ async removeUsuario(id: string){
         
 }
 
-adicionarAssinatura(id: string,dias: BigInteger){
-  const usuario = this.buscaPorID(id);
+async adicionarAssinatura(id: string,dias: BigInteger): Promise<RetornoObjDTO>{
+  const usuario = await this.localizarID(id);
 
   usuario.adicionarAssinatura(dias);
 
